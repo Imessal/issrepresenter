@@ -1,14 +1,14 @@
 package models
 
 case class Stock(
-                  id: Int,
+                  id: String,
                   secId: String,
                   shortName: String,
                   regNumber: String,
                   name: String,
                   isIn: String,
-                  isTraded: Boolean,
-                  emitentId: Int,
+                  isTraded: String,
+                  emitentId: String,
                   emitentTitle: String,
                   emitentInn: String,
                   emitentOkpo: String,
