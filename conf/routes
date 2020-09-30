@@ -11,4 +11,3 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 GET     /stocks                     controllers.HomeController.stocks
 POST    /stocks                     controllers.HomeController.newStock
-POST    /stocks/:secid/history      controllers.HomeController.getHistory
