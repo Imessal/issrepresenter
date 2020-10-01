@@ -6,9 +6,10 @@ case class ShortStock(id: Int,
                       name: String,
                       stockType: String,
                       group: String,
-                      primaryBoardId: String) extends IssObject {
+                      primaryBoardId: String) extends AbstractStock {
   override def getSecId: String = this.secId
-  override def toString: String = {
+
+  override def getInfo: String = {
     "ID: " + id + " | " +
       "SecID: " + secId + " | " +
       "ShortName: " + shortName + " | " +

@@ -24,18 +24,4 @@ class StocksGetter extends XmlParser {
       )
     }
   }.toList
-
-  def tryGetInt(s: String): Option[Int] = {
-    s match {
-      case "" => None
-      case _ => Some(s.toInt)
-    }
-  }
-
-  def tryGetString(s: String): Option[String] = {
-    s match {
-      case "" => None
-      case _ => Some(s)
-    }
-  }
 }

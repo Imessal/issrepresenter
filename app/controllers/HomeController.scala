@@ -21,7 +21,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
    */
   def index() = Action { implicit request: Request[AnyContent] =>
     val holder = new StockHolder
-    Ok(views.html.index(holder.shortStockList))
+    Ok(views.html.index(holder.tradePrimaryHistories))
   }
   def stocks = TODO
 
