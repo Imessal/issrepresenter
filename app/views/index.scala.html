@@ -1,11 +1,24 @@
 @import play.api.libs.json.JsValue
 
-@(stocks: List[String])
+@(stocks: Map[String, List[String]])
 
 @main("Stocks") {
+    <style>
+            ul {
+                list-style-type: none;
+            }
+    </style>
  <ul>
-   @for(stock <- stocks) {
-    <li>@stock</li>
+   @for((stock, histories) <- stocks) {
+       <li>@stock
+         <ul>
+           @for(his <- histories) {
+                <li>@his</li>
+           }
+           <li>
+         </ul>
+       </li>
+
   }
  </ul>
 }

@@ -11,19 +11,14 @@ import play.api.libs.json.{Json, OFormat}
  */
 @Singleton
 class HomeController @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
+  val holder = new StockHolder
 
-  /**
-   * Create an Action to render an HTML page.
-   *
-   * The configuration in the `routes` file means that this method
-   * will be called when the application receives a `GET` request with
-   * a path of `/`.
-   */
-  def index() = Action { implicit request: Request[AnyContent] =>
-    val holder = new StockHolder
-    Ok(views.html.index(holder.tradePrimaryHistories))
+  def index(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    Redirect(routes.HomeController.stocks())
   }
-  def stocks = TODO
+  def stocks: Action[AnyContent] =  Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.index(holder.getData(stockIsShort = true, historyIsShort = true)))
+  }
 
   def newStock = TODO
 

@@ -3,20 +3,44 @@ package models
 import Implicits._
 import play.api.libs.json._
 
+import scala.annotation.tailrec
+
 class StockHolder() {
   private val stocksGetter = new StocksGetter
   private val tradeHistoryGetter = new TradeHistoryGetter
 
-  private val availableStocks: List[FullStock] = stocksGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/securities_2.xml")
-  private val availableHistories: List[TradeHistory] = tradeHistoryGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/history_1.xml")
-  private val stockPrimaryInfoGetter = new StockPrimaryInfoGetter(availableStocks)
-  private val tradesHistoryPrimaryInfoGetter = new TradesHistoryPrimaryInfoGetter(availableHistories)
-  val stocksAsStrings: List[String] = availableStocks.map(s => s.toString)
-  val shortStockList: List[String] = stockPrimaryInfoGetter.getPrimaryInfoStockList.map(s => s.getInfo)
-  val fullTradeHistories: List[String] = availableHistories.map(s => s.getInfo)
-  val tradePrimaryHistories: List[String] = tradesHistoryPrimaryInfoGetter.getPrimaryTradesHistoryInfo.map(s => s.getInfo)
+  private val fullStocks: List[FullStock] = stocksGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/securities_1.xml")
+  private val fullTradeHistories: List[TradeHistory] =
+    tradeHistoryGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/history_1.xml") ++
+      tradeHistoryGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/history_2.xml") ++
+      tradeHistoryGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/history_3.xml") ++
+      tradeHistoryGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/history_4.xml")
+  private val stockPrimaryInfoGetter = new StockPrimaryInfoGetter(fullStocks)
+  private val tradesHistoryPrimaryInfoGetter = new TradesHistoryPrimaryInfoGetter(fullTradeHistories)
+  private val shortStockList: List[ShortStock] = stockPrimaryInfoGetter.getPrimaryInfoStockList
+  private val shortTradeHistories: List[ShortTradeHistory] = tradesHistoryPrimaryInfoGetter.getPrimaryTradesHistoryInfo
 
-//  def getAvailableStockHistory(stock: AbstractStock): List[TradeHistory] = {
-//    val id = stock.getSecId
-//  }
+  private def getAvailableStockHistory(stock: AbstractStock, histories: List[AbstractTradeHistory]): List[AbstractTradeHistory] = {
+    val id = stock.getSecId
+    histories.filter(x => x.getSecId == id)
+  }
+
+  def getData(stockIsShort: Boolean, historyIsShort: Boolean): Map[String, List[String]] = {
+    val res = Map[String, List[String]]()
+    val conditions = (stockIsShort, historyIsShort)
+
+    @tailrec
+    def go(stocks: List[AbstractStock], histories: List[AbstractTradeHistory], acc: Map[String, List[String]]): Map[String, List[String]]= {
+      if (stocks.isEmpty) acc
+      else go(stocks.tail, histories, acc + (stocks.head.getInfo -> getAvailableStockHistory(stocks.head, histories).map(h => h.getInfo)))
+    }
+
+    conditions match {
+      case (true, true) => go(shortStockList, shortTradeHistories, res)
+      case (true, false) => go(shortStockList, fullTradeHistories, res)
+      case (false, true) => go(fullStocks, shortTradeHistories, res)
+      case _ => go(fullStocks, fullTradeHistories, res)
+    }
+  }
+
 }

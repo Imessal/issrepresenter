@@ -11,7 +11,7 @@ case class ShortTradeHistory(
                              mp2valTrd: Double,
                              marketPrice3TradesValue: Double,
                              admittedValue: Double
-                           ) extends AbstractStock {
+                           ) extends AbstractTradeHistory {
   override def getSecId: String = this.secId
 
   override def getInfo: String = {
@@ -24,6 +24,6 @@ case class ShortTradeHistory(
       "Value: " + value + " | " +
       "MpToVal Trd: " + mp2valTrd + " | " +
       "Market Price 3 Trades Value: " + marketPrice3TradesValue + " | " +
-      "Admitted Value: " + admittedValue + " | "
+      "Admitted Value: " + admittedValue
   }
 }
