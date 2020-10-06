@@ -1,11 +1,15 @@
 package models
 
-import Implicits._
-import play.api.libs.json._
-
 import scala.annotation.tailrec
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
+import slick.jdbc.JdbcProfile
+import slick.jdbc.MySQLProfile.api._
+import scala.concurrent.{ExecutionContext, Future}
+import com.google.inject.Inject
+import play.api.data.Form
+import play.api.data.Forms._
 
-class StockHolder() {
+object StockHolder {
   private val stocksGetter = new StocksGetter
   private val tradeHistoryGetter = new TradeHistoryGetter
 
@@ -43,4 +47,64 @@ class StockHolder() {
     }
   }
 
+  class StockTableData(tag: Tag) extends Table[FullStock](tag, "stocks") {
+    def id = column[Int]("id", O.PrimaryKey)
+    def secId = column[String]("secId")
+    def shortName = column[String]("shortName")
+    def regNumber = column[Option[String]]("regNumber")
+    def name = column[String]("name")
+    def isin =  column[Option[String]]("isin")
+    def isTraded = column[Option[Int]]("isTraded")
+    def emitentId =  column[Option[Int]]("emitentId")
+    def emitentTitle = column[Option[String]]("emitentTitle")
+    def emitentInn = column[Option[String]]("emitentInn")
+    def emitentOkpo = column[Option[String]]("emitentOkpo")
+    def gosReg = column[Option[String]]("gosReg")
+    def stockType = column[String]("stockType")
+    def group = column[String]("group")
+    def primaryBoardId = column[String]("primaryBoardId")
+    def marketPriceBoardId = column[Option[String]]("marketPriceBoardId")
+
+    override def * =
+      (id, secId, shortName, regNumber, name, isin, isTraded, emitentId, emitentTitle, emitentInn,
+      emitentOkpo, gosReg, stockType, group, primaryBoardId, marketPriceBoardId) <>
+        (FullStock.tupled, FullStock.unapply)
+  }
+
+  object StockForm {
+    val form: Form[FullStock] = Form(
+      mapping(
+        "id" -> number,
+        "secId" -> text,
+        "shortName" -> text,
+        "regNumber" -> optional(text),
+        "name" -> text,
+        "isin" -> optional(text),
+        "isTraded" -> optional(number),
+        "emitentId" -> optional(number),
+        "emitentTitle" -> optional(text),
+        "emitentInn" -> optional(text),
+        "emitentOkpo" -> optional(text),
+        "gosReg" -> optional(text),
+        "stockType" -> text,
+        "group" -> text,
+        "primaryBoardId" -> text,
+        "marketPriceBoardId" -> optional(text)
+
+      )(FullStock.apply)(FullStock.unapply)
+    )
+  }
+
+  class Stocks @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
+                         (implicit executionContext: ExecutionContext) extends HasDatabaseConfigProvider[JdbcProfile] {
+
+    val stocksFromDB = TableQuery[StockTableData]
+
+    def add (stock:FullStock): Future[String] = {
+      dbConfig.db.run(stocksFromDB += stock).map(res => "stock added").recover {
+        case ex: Exception => "bad stock"
+      }
+    }
+
+  }
 }
