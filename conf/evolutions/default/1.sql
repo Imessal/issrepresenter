@@ -1,4 +1,4 @@
--- Stock schema
+-- Stocks schema
 
 -- !Ups
 

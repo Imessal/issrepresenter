@@ -6,6 +6,6 @@ services:
     image: mysql:8.0.21
     environment:
       MYSQL_ROOT_PASSWORD: 1
-      MYSQL_DATABASE: IssDB
+      MYSQL_DATABASE: stockDb
     ports:
       - "3306:3306"
