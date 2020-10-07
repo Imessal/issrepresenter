@@ -29,23 +29,24 @@ object StockHolder {
     histories.filter(x => x.getSecId == id)
   }
 
-  def getData(stockIsShort: Boolean, historyIsShort: Boolean): Map[String, List[String]] = {
+  def getData(stocks: Seq[AbstractStock],stockIsShort: Boolean, historyIsShort: Boolean): Map[String, List[String]] = {
     val res = Map[String, List[String]]()
     val conditions = (stockIsShort, historyIsShort)
 
     @tailrec
-    def go(stocks: List[AbstractStock], histories: List[AbstractTradeHistory], acc: Map[String, List[String]]): Map[String, List[String]]= {
+    def go(stocks: Seq[AbstractStock], histories: List[AbstractTradeHistory], acc: Map[String, List[String]]): Map[String, List[String]]= {
       if (stocks.isEmpty) acc
       else go(stocks.tail, histories, acc + (stocks.head.getInfo -> getAvailableStockHistory(stocks.head, histories).map(h => h.getInfo)))
     }
 
     conditions match {
-      case (true, true) => go(shortStockList, shortTradeHistories, res)
-      case (true, false) => go(shortStockList, fullTradeHistories, res)
-      case (false, true) => go(fullStocks, shortTradeHistories, res)
-      case _ => go(fullStocks, fullTradeHistories, res)
+      case (true, true) => go(stocks, shortTradeHistories, res)
+      case (true, false) => go(stocks, fullTradeHistories, res)
+      case (false, true) => go(stocks, shortTradeHistories, res)
+      case _ => go(stocks, fullTradeHistories, res)
     }
   }
+
 
   class StockTableData(tag: Tag) extends Table[FullStock](tag, "stocks") {
     def id = column[Int]("id", O.PrimaryKey)
@@ -100,10 +101,22 @@ object StockHolder {
 
     val stocksFromDB = TableQuery[StockTableData]
 
-    def add (stock:FullStock): Future[String] = {
-      dbConfig.db.run(stocksFromDB += stock).map(res => "stock added").recover {
+    def add(stock:FullStock): Future[String] = {
+      dbConfig.db.run(stocksFromDB += stock).map(_ => "stock added").recover {
         case ex: Exception => "bad stock"
       }
+    }
+
+    def delete(id: Int): Future[Int] = {
+      dbConfig.db.run(stocksFromDB.filter(_.id === id).delete)
+    }
+
+    def get(id: Int): Future[Option[FullStock]] = {
+      dbConfig.db.run(stocksFromDB.filter(_.id === id).result.headOption)
+    }
+
+    def all(): Future[Seq[FullStock]] = {
+      dbConfig.db.run(stocksFromDB.result)
     }
 
   }
