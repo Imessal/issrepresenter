@@ -4,7 +4,6 @@ import javax.inject._
 import play.api._
 import play.api.mvc._
 import models.StockHolder._
-import models.FullStock
 import play.api.libs.json.{Json, OFormat}
 import services.StockService
 
@@ -23,21 +22,11 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   }
   def stocks: Action[AnyContent] =  Action.async  { implicit request: Request[AnyContent] =>
     ss.all() map { stocks =>
-      Ok(views.html.index(stocks))
+      Ok(views.html.index(getData(stocks, stockIsShort = true, historyIsShort = true)))
     }
-  }
-
-  def addMany(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    val toAdd = fullStocks
-    ss.addList(toAdd)
-    Redirect(routes.HomeController.stocks())
   }
 
   def newStock = TODO
 
-  def getStock(id: Int) = Action.async { implicit request: Request[AnyContent] =>
-    ss.findStock(id) map { stock =>
-      Ok(views.html.history(stock))
-    }
-  }
+  def getHistory = TODO
 }

@@ -39,5 +39,4 @@ case class FullStock(
       "Primary Board ID: " + primaryBoardId + " | " +
       "Market Price Board ID: " + marketPriceBoardId.getOrElse("None")
   }
-
 }

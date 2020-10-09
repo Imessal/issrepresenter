@@ -21,8 +21,4 @@ class StockService @Inject() (stocks: Stocks){
   def all(): Future[Seq[FullStock]] = {
     stocks.all()
   }
-
-  def addList(stocksToAdd: List[FullStock]): Seq[Future[String]] = {
-    stocks.addList(stocksToAdd)
-  }
 }
