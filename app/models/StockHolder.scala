@@ -4,21 +4,24 @@ import scala.annotation.tailrec
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
 import slick.jdbc.MySQLProfile.api._
+
 import scala.concurrent.{ExecutionContext, Future}
 import com.google.inject.Inject
 import play.api.data.Form
 import play.api.data.Forms._
 
+import scala.collection.immutable
+
 object StockHolder {
   private val stocksGetter = new StocksGetter
   private val tradeHistoryGetter = new TradeHistoryGetter
 
-  private val fullStocks: List[FullStock] = stocksGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/securities_1.xml")
-  private val fullTradeHistories: List[TradeHistory] =
-    tradeHistoryGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/history_1.xml") ++
-      tradeHistoryGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/history_2.xml") ++
-      tradeHistoryGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/history_3.xml") ++
-      tradeHistoryGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/history_4.xml")
+  val fullStocks: List[FullStock] = List[FullStock]()//stocksGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/securities_1.xml")
+  private val fullTradeHistories: List[TradeHistory] = List[TradeHistory]()
+//    tradeHistoryGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/history_1.xml") ++
+//      tradeHistoryGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/history_2.xml") ++
+//      tradeHistoryGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/history_3.xml") ++
+//      tradeHistoryGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/history_4.xml")
   private val stockPrimaryInfoGetter = new StockPrimaryInfoGetter(fullStocks)
   private val tradesHistoryPrimaryInfoGetter = new TradesHistoryPrimaryInfoGetter(fullTradeHistories)
   private val shortStockList: List[ShortStock] = stockPrimaryInfoGetter.getPrimaryInfoStockList
@@ -119,5 +122,8 @@ object StockHolder {
       dbConfig.db.run(stocksFromDB.result)
     }
 
+    def addList(stocks: List[FullStock]): Seq[Future[String]] = {
+      stocks.map(s => add(s))
+    }
   }
 }
