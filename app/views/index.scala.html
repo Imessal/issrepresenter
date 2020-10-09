@@ -1,22 +1,33 @@
-@(stocks: Map[String, List[String]])
+@(stocks: Seq[FullStock])
 
-@main("Stocks") {
-    <style>
-            ul {
-                list-style-type: none;
-            }
-    </style>
- <ul>
-   @for((stock, histories) <- stocks) {
-       <li>@stock
-         <ul>
-           @for(his <- histories) {
-                <li>@his</li>
-           }
-           <li>
-         </ul>
-       </li>
-
-  }
- </ul>
+@main("Available Stocks") {
+    <body id="stocks_body">
+        <div class="table_wrapper">
+            <div class="table_header">
+                Stocks Upload Add
+            </div>
+            <div class="table_body">
+                <table id="stock_table">
+                    <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>ID</th>
+                            <th>Sec ID</th>
+                            <th>Board ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @for(stock <- stocks) {
+                        <tr>
+                            <td>@stock.name</td>
+                            <td style="text-align: center">@stock.id</td>
+                            <td style="text-align: center">@stock.secId</td>
+                            <td style="text-align: center">@stock.primaryBoardId</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
 }

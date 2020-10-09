@@ -13,7 +13,7 @@ object StockHolder {
   private val stocksGetter = new StocksGetter
   private val tradeHistoryGetter = new TradeHistoryGetter
 
-  private val fullStocks: List[FullStock] = stocksGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/securities_1.xml")
+  val fullStocks: List[FullStock] = stocksGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/securities_1.xml")
   private val fullTradeHistories: List[TradeHistory] =
     tradeHistoryGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/history_1.xml") ++
       tradeHistoryGetter.get("/Users/ck0rp/IdeaProjects/issrepresenter/stonks/history_2.xml") ++
@@ -119,5 +119,8 @@ object StockHolder {
       dbConfig.db.run(stocksFromDB.result)
     }
 
+    def addList(stocks: List[FullStock]): Seq[Future[String]] = {
+      stocks.map(s => add(s))
+    }
   }
 }

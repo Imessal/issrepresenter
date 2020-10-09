@@ -22,8 +22,18 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   }
   def stocks: Action[AnyContent] =  Action.async  { implicit request: Request[AnyContent] =>
     ss.all() map { stocks =>
-      Ok(views.html.index(getData(stocks, stockIsShort = true, historyIsShort = true)))
+      Ok(views.html.index(stocks))
     }
+  }
+
+  def addMany(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    val toAdd = fullStocks
+    ss.addList(toAdd)
+    Redirect(routes.HomeController.stocks())
+  }
+
+  def foo(name: String) = Action {
+    Ok(views.html.foo(name))
   }
 
   def newStock = TODO
