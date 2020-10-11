@@ -1,0 +1,17 @@
+@(stock: Option[FullStock], stockHistory: List[TradeHistory])
+
+@main("Подробная информация") {
+    <div>
+
+    </div>
+    <div class="stock_full_info">
+        @stock.getOrElse(None)
+    </div>
+    <div class="stock_history">
+        <ul>
+            @for(h <- stockHistory){
+                <li>@h.getInfo</li>
+            }
+        </ul>
+    </div>
+}

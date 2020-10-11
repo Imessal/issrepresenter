@@ -19,7 +19,7 @@
                     <tbody>
                     @for(stock <- stocks) {
                         <tr>
-                            <td>@stock.name</td>
+                            <td><a href="@routes.HomeController.getStockInfo(stock.id)">@stock.name</a></td>
                             <td style="text-align: center">@stock.id</td>
                             <td style="text-align: center">@stock.secId</td>
                             <td style="text-align: center">@stock.primaryBoardId</td>

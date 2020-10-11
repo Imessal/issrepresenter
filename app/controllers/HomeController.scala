@@ -4,18 +4,17 @@ import javax.inject._
 import play.api._
 import play.api.mvc._
 import models.StockHolder._
-import play.api.libs.json.{Json, OFormat}
+import models.HistoryHolder._
+import models.TradeHistory
 import services.StockService
+import services.HistoryService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-/**
- * This controller creates an `Action` to handle HTTP requests to the
- * application's home page.
- */
+
 @Singleton
 class HomeController @Inject()(val controllerComponents: ControllerComponents,
-                              ss: StockService) extends BaseController {
+                              ss: StockService, hs: HistoryService) extends BaseController {
 
   def index(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     Redirect(routes.HomeController.stocks())
@@ -27,16 +26,19 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   }
 
   def addMany(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    val toAdd = fullStocks
-    ss.addList(toAdd)
+    val stocksToAdd = fullStocks
+    val historiesToAdd = fullTradeHistories
+    ss.addList(stocksToAdd)
+    hs.addList(historiesToAdd)
     Redirect(routes.HomeController.stocks())
   }
 
-  def foo(name: String) = Action {
-    Ok(views.html.foo(name))
+  def getStockInfo(id: Int): Action[AnyContent] = Action.async {
+    ss.findStock(id) map { stock =>
+    Ok(views.html.stock(stock, getFullStockInfo(stock)))
+    }
   }
 
   def newStock = TODO
 
-  def getHistory = TODO
 }
