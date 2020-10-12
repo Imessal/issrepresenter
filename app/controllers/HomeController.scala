@@ -7,12 +7,13 @@ import javax.inject._
 import play.api.mvc._
 import models.StockHolder._
 import models.HistoryHolder._
-import models.{StocksGetter, TradeHistoryGetter}
+import models.{FullStock, StocksGetter, TradeHistoryGetter}
 import play.api.libs.Files
 import services.StockService
 import services.HistoryService
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 @Singleton
 class HomeController @Inject()(val controllerComponents: ControllerComponents,
@@ -24,6 +25,12 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   def stocks: Action[AnyContent] =  Action.async  { implicit request: Request[AnyContent] =>
     ss.all() map { stocks =>
       Ok(views.html.index(stocks))
+    }
+  }
+
+  def deleteStock(id: Int): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
+    ss.deleteStock(id) map { _ =>
+      Redirect(routes.HomeController.index())
     }
   }
 
@@ -46,7 +53,27 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     } yield Ok(views.html.stock(stock, history))
   }
 
-  def newStock = TODO
+  def sendStock: Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
+    StockForm.form.bindFromRequest.fold(
+      errorForm => {
+        println(errorForm)
+        Future.successful(Ok(views.html.index(Seq.empty[FullStock])))
+      },
+      data => {
+        val newStock = FullStock(data.id, data.secId, data.shortName, data.regNumber, data.name, data.isin,
+        data.isTraded, data.emitentId, data.emitentTitle, data.emitentInn, data.emitentOkpo, data.gosReg,
+        data.stockType, data.group, data.primaryBoardId, data.marketPriceBoardId)
+        println(newStock)
+        ss.addStock(newStock).map { _ =>
+          Redirect(routes.HomeController.index())
+        }
+      }
+    )
+  }
+
+  def newStock: Action[AnyContent] = Action {
+    Ok(views.html.register(StockForm.form))
+  }
 
   def uploadForm: Action[AnyContent] = Action {
     Ok(views.html.uploadform())

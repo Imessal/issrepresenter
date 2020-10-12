@@ -12,8 +12,10 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 GET     /stocks                     controllers.HomeController.stocks
 GET     /uploadForm                 controllers.HomeController.uploadForm
 GET     /stocks/:id                 controllers.HomeController.getStockInfo(id: Int)
-POST    /stocks                     controllers.HomeController.newStock
+GET     /newStock                   controllers.HomeController.newStock
+POST    /sendStock                 controllers.HomeController.sendStock
 POST    /upload/                    controllers.HomeController.upload()
 GET     /addManyStocks               controllers.HomeController.addManyStocks(path: String)
 GET     /addManyHistories            controllers.HomeController.addManyHistories(path: String)
+GET     /delete/:id                  controllers.HomeController.deleteStock(id: Int)
 #GET     /histories                  controllers.HomeController.getHistory()

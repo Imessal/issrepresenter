@@ -4,7 +4,12 @@
     <body id="stocks_body">
         <div class="table_wrapper">
             <div class="table_header">
-                Stocks <a href="@routes.HomeController.uploadForm()">Upload</a> Add
+                Stocks <a href="@routes.HomeController.uploadForm()">Upload</a>
+                    <input type="button" value="Новый" id="addButton"
+                    onclick="window.open('@routes.HomeController.newStock',
+                            'newwindow');
+                    return false;"
+                    />
             </div>
             <div class="table_body">
                 <table id="stock_table">
