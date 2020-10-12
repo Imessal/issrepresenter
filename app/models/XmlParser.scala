@@ -1,7 +1,7 @@
 package models
 
 trait XmlParser {
-  def get(xml: String): List[IssObject]
+  def get(): List[IssObject]
 
   def tryGetInt(s: String): Option[Int] = {
     s match {

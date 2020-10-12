@@ -7,15 +7,7 @@ import slick.jdbc.MySQLProfile.api._
 import scala.concurrent.{ExecutionContext, Future}
 
 object HistoryHolder {
-  private val tradeHistoryGetter = new TradeHistoryGetter
-
-  val fullTradeHistories: List[TradeHistory] =
-    tradeHistoryGetter.get("./stonks/history_1.xml") ++
-      tradeHistoryGetter.get("./stonks/history_2.xml") ++
-      tradeHistoryGetter.get("./stonks/history_3.xml") ++
-      tradeHistoryGetter.get("./stonks/history_4.xml")
-
-  def getFullStockInfo(stock: Option[AbstractStock]): List[TradeHistory] = {
+  def getFullStockInfo(stock: Option[AbstractStock], fullTradeHistories: List[TradeHistory]): List[TradeHistory] = {
     stock match {
       case Some(s) => fullTradeHistories.filter (h => h.getSecId == s.getSecId)
       case None => List[TradeHistory]()
@@ -37,8 +29,8 @@ object HistoryHolder {
       dbConfig.db.run(historiesFromDB.filter(_.secId === secId).delete)
     }
 
-    def get(secId: String): Future[Option[TradeHistory]] = {
-      dbConfig.db.run(historiesFromDB.filter(_.secId === secId).result.headOption)
+    def get(secId: String): Future[Seq[TradeHistory]] = {
+      dbConfig.db.run(historiesFromDB.filter(_.secId === secId).result)
     }
 
     def all(): Future[Seq[TradeHistory]] = {

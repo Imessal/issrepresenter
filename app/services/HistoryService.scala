@@ -15,7 +15,7 @@ class HistoryService @Inject() (histories: Histories) {
     histories.delete(secId)
   }
 
-  def findHistory(secId: String): Future[Option[TradeHistory]] = {
+  def findHistory(secId: String): Future[Seq[TradeHistory]] = {
     histories.get(secId)
   }
 

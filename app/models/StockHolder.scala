@@ -10,9 +10,6 @@ import play.api.data.Form
 import play.api.data.Forms._
 
 object StockHolder {
-  private val stocksGetter = new StocksGetter
-  val fullStocks: List[FullStock] = stocksGetter.get("./stonks/securities_1.xml")
-
   object StockForm {
     val form: Form[FullStock] = Form(
       mapping(

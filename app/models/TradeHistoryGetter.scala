@@ -1,8 +1,8 @@
 package models
 
-class TradeHistoryGetter extends XmlParser {
-  override def get(xmlPath: String): List[TradeHistory] = {
-    val xml = scala.xml.XML.loadFile(xmlPath)
+class TradeHistoryGetter(path: String) extends XmlParser {
+  override def get(): List[TradeHistory] = {
+    val xml = scala.xml.XML.loadFile(path)
     (xml \\ "row").dropRight(1).map{node =>
       TradeHistory(
         (node \\ "@BOARDID").text,
