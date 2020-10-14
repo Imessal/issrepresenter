@@ -13,9 +13,11 @@ GET     /stocks                     controllers.HomeController.stocks
 GET     /uploadForm                 controllers.HomeController.uploadForm
 GET     /stocks/:id                 controllers.HomeController.getStockInfo(id: Int)
 GET     /newStock                   controllers.HomeController.newStock
-POST    /sendStock                 controllers.HomeController.sendStock
+POST    /sendStock(:isNew)          controllers.HomeController.sendStock(isNew: Boolean)
 POST    /upload/                    controllers.HomeController.upload()
 GET     /addManyStocks               controllers.HomeController.addManyStocks(path: String)
 GET     /addManyHistories            controllers.HomeController.addManyHistories(path: String)
 GET     /delete/:id                  controllers.HomeController.deleteStock(id: Int)
+GET     /tableView                   controllers.HomeController.getTableView
+GET     /update/:id                  controllers.HomeController.updateStock(id: Int)
 #GET     /histories                  controllers.HomeController.getHistory()

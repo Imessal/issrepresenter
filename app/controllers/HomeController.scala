@@ -7,7 +7,7 @@ import javax.inject._
 import play.api.mvc._
 import models.StockHolder._
 import models.HistoryHolder._
-import models.{FullStock, StocksGetter, TradeHistoryGetter}
+import models.{FullStock, StocksGetter, TradeHistory, TradeHistoryGetter}
 import play.api.libs.Files
 import services.StockService
 import services.HistoryService
@@ -34,6 +34,13 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     }
   }
 
+  def updateStock(id: Int): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
+    for {
+      stock <- ss.findStock(id)
+    } yield Ok(views.html.update(StockForm.form, stock.get))
+  }
+
+
   def addManyHistories(path: String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     val historiesToAdd = new TradeHistoryGetter(path).get()
     hs.addList(historiesToAdd)
@@ -50,10 +57,17 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     for {
       stock <- ss.findStock(id)
       history <- hs.findHistory(stock.get.secId)
-    } yield Ok(views.html.stock(stock, history))
+    } yield Ok(views.html.stock(StockForm.form, stock, history))
   }
 
-  def sendStock: Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
+  def getTableView: Action[AnyContent] = Action.async {
+    for {
+      stocks <- ss.all()
+      histories <- hs.all()
+    } yield Ok(views.html.tableView(stocks, histories))
+  }
+
+  def sendStock(isNew: Boolean): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
     StockForm.form.bindFromRequest.fold(
       errorForm => {
         println(errorForm)
@@ -63,9 +77,15 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
         val newStock = FullStock(data.id, data.secId, data.shortName, data.regNumber, data.name, data.isin,
         data.isTraded, data.emitentId, data.emitentTitle, data.emitentInn, data.emitentOkpo, data.gosReg,
         data.stockType, data.group, data.primaryBoardId, data.marketPriceBoardId)
-        println(newStock)
-        ss.addStock(newStock).map { _ =>
-          Redirect(routes.HomeController.index())
+
+        if (isNew) {
+          ss.addStock(newStock).map { _ =>
+            Redirect(routes.HomeController.index())
+          }
+        } else {
+          ss.update(newStock).map { _ =>
+            Redirect(routes.HomeController.index())
+          }
         }
       }
     )

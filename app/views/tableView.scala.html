@@ -1,0 +1,26 @@
+@(stocks: Seq[FullStock], histories: Seq[TradeHistory])
+
+@main("Таблицв"){
+    <table id="stock_table">
+        <thead>Сокращенная информация по акциям</thead>
+        <tbody>
+            @for(stock <- stocks){
+                <tr>
+                    <td>@stock.secId</td>
+                    <td>@stock.regNumber.getOrElse("-")</td>
+                    <td>@stock.name<td>
+                    <td>@stock.emitentTitle.getOrElse("-")</td>
+                </tr>
+                @for(history <- histories.filter(h => h.getSecId == stock.getSecId)){
+                    <tr>
+                        <td>@history.tradeDate</td>
+                        <td>@history.numTrades</td>
+                        <td>@history.open.getOrElse("-")</td>
+                        <td>@history.close.getOrElse("-")</td>
+                    </tr>
+                }
+                <tr><td><br></td></tr>
+            }
+        </tbody>
+    </table>
+}

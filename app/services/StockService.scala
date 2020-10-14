@@ -18,6 +18,10 @@ class StockService @Inject() (stocks: Stocks){
     stocks.get(id)
   }
 
+  def update(stock:FullStock): Future[String] = {
+    stocks.update(stock)
+  }
+
   def all(): Future[Seq[FullStock]] = {
     stocks.all()
   }

@@ -1,4 +1,4 @@
-@(stock: Option[FullStock], stockHistory: Seq[TradeHistory])
+@(form: Form[FullStock], stock: Option[FullStock], stockHistory: Seq[TradeHistory])
 
 @main("Подробная информация") {
     <div>
@@ -14,5 +14,6 @@
             }
         </ul>
         <a href="@routes.HomeController.deleteStock(stock.get.id)">Удалить</a>
+        <a href="@routes.HomeController.updateStock(stock.get.id)">Редактировать</a>
     </div>
 }

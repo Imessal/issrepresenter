@@ -45,6 +45,11 @@ object StockHolder {
       }
     }
 
+    def update(stock: FullStock): Future[String] = {
+      dbConfig.db.run(stocksFromDB.filter(_.id === stock.id).delete)
+      add(stock)
+    }
+
     def delete(id: Int): Future[Int] = {
       dbConfig.db.run(stocksFromDB.filter(_.id === id).delete)
     }
