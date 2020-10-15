@@ -1,8 +1,8 @@
 package models
 
-class StocksGetter(path: String) extends XmlParser {
+class StocksGetter(xmlAsString: String) extends XmlParser {
   override def get(): List[FullStock] = {
-    val xml = scala.xml.XML.loadFile(path)
+    val xml = scala.xml.XML.loadString(xmlAsString)
     xml \\ "row" map { node =>
       FullStock(
         (node \\ "@id").text.toInt,

@@ -1,27 +1,53 @@
 package controllers
 
 import java.io.File
+import java.nio.file.{Files => JavaFiles}
 import java.nio.file.Paths
 
 import javax.inject._
 import play.api.mvc._
 import models.StockHolder._
 import models.HistoryHolder._
-import models.{FullStock, StocksGetter, TradeHistory, TradeHistoryGetter}
+import models.{FullStock, IssObject, SearchRequestSender, StocksGetter, TradeHistory, TradeHistoryGetter}
 import play.api.libs.Files
 import services.StockService
 import services.HistoryService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.io.Source
+import scala.util.{Failure, Success}
 
 @Singleton
 class HomeController @Inject()(val controllerComponents: ControllerComponents,
                               ss: StockService, hs: HistoryService) extends BaseController {
+  val req = new SearchRequestSender()
 
   def index(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+//    println(req.get(List[String]("AFKS", "AFLT")))
     Redirect(routes.HomeController.stocks())
   }
+
+  def synchronise(): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
+    val ownedStocksSecIds = for {
+      stocks <- ss.all()
+    } yield stocks.map(s => s.secId)
+
+    val ownedHistories = for {
+      ids <- ownedStocksSecIds
+      histories <- hs.all()
+    } yield histories.filter(th => !ids.contains(th.getSecId)).map(th => th.getSecId)
+
+    val wantedStocks = req.get(ownedHistories)
+
+    wantedStocks map {
+      res => {
+        ss.addList(res)
+        Redirect(routes.HomeController.index())
+      }
+    }
+  }
+
   def stocks: Action[AnyContent] =  Action.async  { implicit request: Request[AnyContent] =>
     ss.all() map { stocks =>
       Ok(views.html.index(stocks))
@@ -42,14 +68,17 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
 
 
   def addManyHistories(path: String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    val historiesToAdd = new TradeHistoryGetter(path).get()
-    hs.addList(historiesToAdd)
+    val allHistoriesList = new TradeHistoryGetter(path).get()
+    hs.addList(allHistoriesList)
+    new File(path).delete()
     Ok(views.html.success())
   }
 
-  def addManyStocks(path: String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    val stocksToAdd = new StocksGetter(path).get()
+  def addManyStocksFromFile(path: String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    val content = new String(JavaFiles.readAllBytes(Paths.get(path)))
+    val stocksToAdd = new StocksGetter(content).get()
     ss.addList(stocksToAdd)
+    new File(path).delete()
     Ok(views.html.success())
   }
 
@@ -114,7 +143,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
         val file = s"./tmp/$filename"
 
         dataType match {
-          case "securities" => Redirect(routes.HomeController.addManyStocks(file))
+          case "securities" => Redirect(routes.HomeController.addManyStocksFromFile(file))
           case "history" => Redirect(routes.HomeController.addManyHistories(file))
         }
       }

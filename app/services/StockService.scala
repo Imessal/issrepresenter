@@ -18,7 +18,7 @@ class StockService @Inject() (stocks: Stocks){
     stocks.get(id)
   }
 
-  def update(stock:FullStock): Future[String] = {
+  def update(stock:FullStock): Future[Int] = {
     stocks.update(stock)
   }
 
