@@ -1,7 +1,7 @@
 @(stockForm: Form[models.FullStock])
 
 @main("Регистрация ценной бумаги"){
-    <div class="register_form">
+    <article class="register_form">
         <form action='@routes.HomeController.sendStock(isNew = true)' method="post">
             <legend>Новая акция</legend>
             <ul>
@@ -87,5 +87,5 @@
 
             </ul>
         </form>
-    </div>
+    </article>
 }

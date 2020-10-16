@@ -15,8 +15,6 @@ import services.HistoryService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.io.Source
-import scala.util.{Failure, Success}
 
 @Singleton
 class HomeController @Inject()(val controllerComponents: ControllerComponents,
@@ -24,7 +22,6 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   val req = new SearchRequestSender()
 
   def index(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-//    println(req.get(List[String]("AFKS", "AFLT")))
     Redirect(routes.HomeController.stocks())
   }
 
@@ -48,9 +45,17 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     }
   }
 
-  def stocks: Action[AnyContent] =  Action.async  { implicit request: Request[AnyContent] =>
+  def stocks: Action[AnyContent] =  Action.async { implicit request: Request[AnyContent] =>
     ss.all() map { stocks =>
       Ok(views.html.index(stocks))
+    }
+  }
+
+  def clearHistory(secId: String): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
+    val fHistories = hs.findHistory(secId)
+    fHistories.map {
+      histories => histories.map(_ => hs.deleteHistory(secId))
+        Redirect(routes.HomeController.index())
     }
   }
 

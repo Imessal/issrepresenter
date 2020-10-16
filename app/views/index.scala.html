@@ -1,41 +1,39 @@
 @(stocks: Seq[FullStock])
 
 @main("Available Stocks") {
-    <body id="stocks_body">
-        <div class="table_wrapper">
-            <div class="table_header">
-                Stocks <a href="@routes.HomeController.uploadForm()">Upload</a>
-                    <input type="button" value="Новый" id="addButton"
-                    onclick="window.open('@routes.HomeController.newStock',
-                            'newwindow');
-                    return false;"
-                    />
-            </div>
-            <div class="table_body">
-                <table id="stock_table">
-                    <thead>
-                        <tr>
-                            <th>Название</th>
-                            <th>ID</th>
-                            <th>Sec ID</th>
-                            <th>Board ID</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @for(stock <- stocks) {
-                        <tr>
-                            <td><a href="@routes.HomeController.getStockInfo(stock.id)">@stock.name</a></td>
-                            <td style="text-align: center">@stock.id</td>
-                            <td style="text-align: center">@stock.secId</td>
-                            <td style="text-align: center">@stock.primaryBoardId</td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
-            </div>
-            <div>
-                <a href="@routes.HomeController.getTableView()">Открыть таблицу</a>
-            </div>
+    <article class="table_wrapper">
+        <section class="table_header">
+            Stocks <a href="@routes.HomeController.uploadForm()">Upload</a>
+                <input type="button" value="Новый" id="addButton"
+                onclick="window.open('@routes.HomeController.newStock',
+                        'newwindow');
+                return false;"
+                />
+        </section>
+        <section class="table_body">
+            <table id="stock_table">
+                <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>ID</th>
+                        <th>Sec ID</th>
+                        <th>Board ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(stock <- stocks) {
+                    <tr>
+                        <td><a href="@routes.HomeController.getStockInfo(stock.id)">@stock.name</a></td>
+                        <td style="text-align: center">@stock.id</td>
+                        <td style="text-align: center">@stock.secId</td>
+                        <td style="text-align: center">@stock.primaryBoardId</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </section>
+        <div>
+            <a href="@routes.HomeController.getTableView()">Открыть таблицу</a>
         </div>
-    </body>
+    </article>
 }

@@ -1,19 +1,21 @@
 @(form: Form[FullStock], stock: Option[FullStock], stockHistory: Seq[TradeHistory])
 
 @main("Подробная информация") {
-    <div>
-
-    </div>
-    <div class="stock_full_info">
-        @stock.getOrElse(None)
-    </div>
-    <div class="stock_history">
-        <ul>
-            @for(h <- stockHistory){
-                <li>@h.getInfo</li>
-            }
-        </ul>
-        <a href="@routes.HomeController.deleteStock(stock.get.id)">Удалить</a>
-        <a href="@routes.HomeController.updateStock(stock.get.id)">Редактировать</a>
-    </div>
+    <article class="stock_full_info">
+        <section class="stock_info">
+            @stock.getOrElse(None)
+        </section>
+        <section class="stock_history">
+            <ul>
+                @for(h <- stockHistory){
+                    <li>@h.getInfo</li>
+                }
+            </ul>
+            <a href="@routes.HomeController.deleteStock(stock.get.id)">Удалить</a>
+            <a href="@routes.HomeController.updateStock(stock.get.id)">Редактировать</a>
+        </section>
+        <div>
+            <a href="@routes.HomeController.clearHistory(stock.get.getSecId)">Очистить историю</a>
+        </div>
+    </article>
 }
