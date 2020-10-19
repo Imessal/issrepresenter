@@ -3,12 +3,15 @@
 @main("Available Stocks") {
     <article class="table_wrapper">
         <section class="table_header">
-            Stocks <a href="@routes.HomeController.uploadForm()">Upload</a>
-                <input type="button" value="Новый" id="addButton"
-                onclick="window.open('@routes.HomeController.newStock',
-                        'newwindow');
-                return false;"
-                />
+            <div class="logo_letters">
+                Stocks
+            </div>
+            <div class="header_buttons">
+                <input class="header_button" type="button" value="Загрузить" id="uploadButton"
+                onclick="window.open('@routes.HomeController.uploadForm()')">
+                <input class="header_button" type="button" value="Новый" id="addButton"
+                onclick="window.open('@routes.HomeController.newStock')">
+            </div>
         </section>
         <section class="table_body">
             <table id="stock_table">
@@ -24,9 +27,9 @@
                 @for(stock <- stocks) {
                     <tr>
                         <td><a href="@routes.HomeController.getStockInfo(stock.id)">@stock.name</a></td>
-                        <td style="text-align: center">@stock.id</td>
-                        <td style="text-align: center">@stock.secId</td>
-                        <td style="text-align: center">@stock.primaryBoardId</td>
+                        <td style="text-align: center"><a href="@routes.HomeController.getStockInfo(stock.id)">@stock.id</a></td>
+                        <td style="text-align: center"><a href="@routes.HomeController.getStockInfo(stock.id)">@stock.secId</a></td>
+                        <td style="text-align: center"><a href="@routes.HomeController.getStockInfo(stock.id)">@stock.primaryBoardId</a></td>
                     </tr>
                 }
                 </tbody>

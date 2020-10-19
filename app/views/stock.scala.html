@@ -2,17 +2,67 @@
 
 @main("Подробная информация") {
     <article class="stock_full_info">
-        <section class="stock_info">
-            @stock.getOrElse(None)
+        <section class="table_header">
+            <div class="name_container">@stock.get.shortName</div>
+            <div class="stock_buttons">
+                <input class="header_button" type="button" value="Редактировать" id="editButton"
+                onclick="window.open('@routes.HomeController.updateStock(stock.get.id)')">
+                <input class="header_button" type="button" value="Удалить" id="deleteButton"
+                onclick="window.open('@routes.HomeController.deleteStock(stock.get.id)')">
+            </div>
         </section>
-        <section class="stock_history">
-            <ul>
-                @for(h <- stockHistory){
-                    <li>@h.getInfo</li>
-                }
-            </ul>
-            <a href="@routes.HomeController.deleteStock(stock.get.id)">Удалить</a>
-            <a href="@routes.HomeController.updateStock(stock.get.id)">Редактировать</a>
+        <section class="stock_info">
+            <div class="stock_info_table">
+                <table class="table_part" id="table_part_1">
+                    <tbody>
+                        <tr><td>ID:</td> <td>@stock.get.id</td></tr>
+                        <tr><td>Name:</td> <td>@stock.get.name</td></tr>
+                        <tr><td>Reg Number:</td> <td>@stock.get.regNumber.getOrElse("—")</td></tr>
+                        <tr><td>isin:</td> <td>@stock.get.isin.getOrElse("—")</td></tr>
+                        <tr><td>Is Traded:</td> <td>@stock.get.isTraded.getOrElse(None).equals(1).toString.capitalize</td></tr>
+                        <tr><td>Emitent ID:</td> <td>@stock.get.emitentId.getOrElse("—")</td></tr>
+                        <tr><td>Emitent Title:</td> <td>@stock.get.emitentTitle.getOrElse("—")</td></tr>
+                    </tbody>
+                </table>
+                <table class="table_part" id="table_part_2">
+                    <tbody>
+                        <tr><td>Emitent Inn:</td> <td>@stock.get.emitentInn.getOrElse("—")</td></tr>
+                        <tr><td>Emitent Okpo:</td> <td>@stock.get.emitentOkpo.getOrElse("—")</td></tr>
+                        <tr><td>Gos Reg:</td> <td>@stock.get.gosReg.getOrElse("—")</td></tr>
+                        <tr><td>Stock Type:</td> <td>@stock.get.stockType.split("_").map(_.capitalize).mkString(" ")</td></tr>
+                        <tr><td>Group:</td> <td>@stock.get.group.split("_").map(_.capitalize).mkString(" ")</td></tr>
+                        <tr><td>Primary Board ID:</td> <td>@stock.get.primaryBoardId</td></tr>
+                        <tr><td>Marketplace Board ID:</td> <td>@stock.get.primaryBoardId</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section class="stock_history_wrapper">
+            <div class="history_subheader">История торгов:</div>
+            <section class="history_list">
+                <table id="trade_history_table">
+                    <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Board ID</th>
+                            <th>NumTrades</th>
+                            <th>Value</th>
+                            <th>Volume</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(h <- stockHistory){
+                            <tr>
+                                <td>@h.tradeDate</td>
+                                <td>@h.boardId</td>
+                                <td>@h.numTrades</td>
+                                <td>@h.value</td>
+                                <td>@h.volume</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </section>
         </section>
         <div>
             <a href="@routes.HomeController.clearHistory(stock.get.getSecId)">Очистить историю</a>

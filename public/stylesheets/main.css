@@ -1,0 +1,169 @@
+body {
+    background-color: #FFFF73;
+}
+
+section {
+    background-color: #FFFFFE;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+tr:hover {
+    background: aquamarine;
+}
+
+tr:active {
+    color: #f4511e;
+}
+
+td a {
+    display: block;
+}
+
+.table_body {
+    border-radius: 0 0 40px 40px;
+    padding-bottom: 30px;
+    padding-top: 15px;
+}
+
+.table_header {
+    height: 80px;
+    border-radius: 40px 40px 0 0;
+    background-color: floralwhite;
+}
+
+.table_header > div {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.header_buttons {
+    height: 40px;
+    float: right;
+}
+
+.header_button {
+    text-align: center;
+    display: inline-block;
+    /*padding-right: 10%;*/
+    max-width: 200px;
+    padding: 9px 48px;
+    font-size: 1.4vw;
+    transition: all 0.5s;
+    cursor: pointer;
+    /*margin: 5px;*/
+    /*margin-bottom: 8px;*/
+    margin-left: 10px;
+    border-radius: 20px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+}
+
+.logo_letters {
+    font-size: 2.3vw;
+    margin-left: 200px;
+    /*padding-top: 2px;*/
+}
+
+.header_buttons {
+    padding-right: 30px;
+}
+
+.table_wrapper {
+    position: center;
+}
+
+.table_wrapper a {
+    color: black;
+    text-decoration: none;
+}
+
+/*.table_wrapper a:hover {*/
+
+/*}*/
+
+/*.table_wrapper a:active {*/
+/*    color: darkturquoise;*/
+/*}*/
+
+#stock_table {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.2vw;
+}
+
+.stock_full_info {
+    position: center;
+}
+
+.stock_info {
+    background-color: bisque;
+    padding-bottom: 30px;
+    padding-top: 15px;
+}
+
+.stock_history_wrapper {
+    border-radius: 0 0 40px 40px;
+    padding-bottom: 30px;
+    padding-top: 15px;
+}
+
+.history_list {
+    margin-left: 8%;
+    margin-right: 8%;
+}
+
+.table_part {
+    display: inline-block;
+}
+
+#table_part_1 {
+    max-width: 400px;
+}
+
+#table_part_2 {
+    margin-left: 20%;
+}
+
+.stock_info_table {
+    margin-left: 6%;
+}
+
+table.table_part {
+    border-collapse:separate;
+    border-spacing:0 6px;
+    font-size: 1.05vw;
+}
+
+.history_subheader {
+    text-align: center;
+}
+
+#trade_history_table {
+    margin-right: auto;
+    margin-left: auto;
+    font-size: 1.2vw;
+}
+#trade_history_table td {
+    padding: 5px 40px;
+}
+
+#trade_history_table tr:hover{
+    background-color: aquamarine;
+}
+
+.stock_buttons {
+    float: right;
+    font-size: 1.2vw;
+}
+
+#editButton {
+    width: 400px;
+    padding-left: 30px;
+}
+
+.name_container{
+    font-size: 2.3vw;
+    margin-left: 8%;
+}
