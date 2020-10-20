@@ -1,107 +1,128 @@
 @(stockForm: Form[models.FullStock], stockToUpdate: FullStock)
 
-@main("Регистрация ценной бумаги"){
+@main("Редактирование ценной бумаги"){
     <article class="register_form">
-        <form action='@routes.HomeController.sendStock(isNew = false)' method="post">
-            <legend>Новая акция</legend>
-            <ul>
-                <li>
-                    <label for="id" class="input_field">ID:</label>
-                    <input type="number" id="id" name="id"
+        <div class="form_wrapper">
+            <form action='@routes.HomeController.sendStock(isNew = false)' method="post">
+                <div class="table_header">
+                    <div class="register_title">Редактирование ценной бумаги</div>
+                </div>
+                <ul>
+                    <li>
+                        <label for="edit_id" class="input_field"></label>
+                        <input type="number" id="edit_id" name="id"
                         value="@stockToUpdate.id"
-                    oninvalid="this.setCustomValidity('ID должен быть целым числом')"
-                    oninput="this.setCustomValidity('')"
-                    readonly>
-                    <span class="error" aria-live="polite"></span>
-                </li>
-                <li>
-                    <label for="secId" class="input_field">SecID:</label>
-                    <input type="text" id="secId" name="secId"
-                    value="@stockToUpdate.secId"
-                    required>
-                </li>
-                <li>
-                    <label for="shortName" class="input_field">Short Name:</label>
-                    <input type="text" id="shortName" name="shortName"
-                    value="@stockToUpdate.shortName"
-                    required>
-                </li>
-                <li>
-                    <label for="regNumber" class="input_field">Reg Number:</label>
-                    <input type="text" id="regNumber" name="regNumber"
-                    value="@stockToUpdate.regNumber">
-                </li>
-                <li>
-                    <label for="name" class="input_field">Name:</label>
-                    <input type="text" id="name" name="name"
-                    required
-                    value="@stockToUpdate.name">
-                </li>
-                <li>
-                    <label for="isin" class="input_field">Isin:</label>
-                    <input type="text" id="isin" name="isin"
-                    value="@stockToUpdate.isin">
-                </li>
-                <li>
-                    <label for="isTraded" class="input_field">Is Traded:</label>
-                    <input type="number" id="isTraded" name="isTraded"
-                    value="@stockToUpdate.isTraded">
-                </li>
-                <li>
-                    <label for="emitentId" class="input_field"> Emitent ID:</label>
-                    <input type="number" id="emitentId" name="emitentId"
-                    value="@stockToUpdate.emitentId">
-                </li>
-                <li>
-                    <label for="emitentTitle" class="input_field"> Emitent Title:</label>
-                    <input type="text" id="emitentTitle" name="emitentTitle"
-                    value="@stockToUpdate.emitentTitle">
-                </li>
-                <li>
-                    <label for="emitentInn" class="input_field"> Emitent INN:</label>
-                    <input type="text" id="emitentInn" name="emitentInn"
-                    value="@stockToUpdate.emitentInn">
-                </li>
-                <li>
-                    <label for="emitentOkpo" class="input_field"> Emitent okpo:</label>
-                    <input type="text" id="emitentOkpo" name="emitentOkpo"
-                    value="@stockToUpdate.emitentOkpo">
-                </li>
-                <li>
-                    <label for="gosReg" class="input_field"> Gos Reg:</label>
-                    <input type="text" id="gosReg" name="gosReg"
-                    value="@stockToUpdate.gosReg">
-                </li>
-                <li>
-                    <label for="stockType" class="input_field">Stock Type:</label>
-                    <input type="text" id="stockType" name="stockType"
-                    required
-                    value="@stockToUpdate.stockType">
-                </li>
-                <li>
-                    <label for="group" class="input_field">Group:</label>
-                    <input type="text" id="group" name="group"
-                    required
-                    value="@stockToUpdate.group">
-                </li>
-                <li>
-                    <label for="primaryBoardId" class="input_field">Primary Board ID:</label>
-                    <input type="text" id="primaryBoardId" name="primaryBoardId"
-                    required
-                    value="@stockToUpdate.primaryBoardId">
-                </li>
-                <li>
-                    <label for="marketPriceBoardId" class="input_field">Market Price Board ID:</label>
-                    <input type="text" id="marketPriceBoardId" name="marketPriceBoardId"
-                    value="@stockToUpdate.marketPriceBoardId">
-                </li>
-                <li class="button">
-                    <div class="send_button">
-                        <button type="submit">Применить</button>
-                    </div>
-                </li>
-
-            </ul>
-        </form>
+                        oninvalid="this.setCustomValidity('ID должен быть целым числом')"
+                        oninput="this.setCustomValidity('')"
+                        readonly>
+                        <span class="error" aria-live="polite"></span>
+                    </li>
+                    <li>
+                        <label for="secId" class="input_field"></label>
+                        <input type="text" id="secId" name="secId"
+                        placeholder="* SecID:"
+                        required
+                        value="@stockToUpdate.secId">
+                    </li>
+                    <li>
+                        <label for="shortName" class="input_field"></label>
+                        <input type="text" id="shortName" name="shortName"
+                        placeholder="* Short Name:"
+                        required
+                        value="@stockToUpdate.shortName">
+                    </li>
+                    <li>
+                        <label for="regNumber" class="input_field"></label>
+                        <input type="text" id="regNumber" name="regNumber"
+                        placeholder="Reg Number:"
+                        value="@stockToUpdate.regNumber">
+                    </li>
+                    <li>
+                        <label for="name" class="input_field"></label>
+                        <input type="text" id="name" name="name"
+                        placeholder="* Name:"
+                        required
+                        pattern="^[А-Яа-яЁё0-9\s]+$"
+                        oninvalid="this.setCustomValidity('ААА')"
+                        oninput="this.setCustomValidity('')"
+                        value="@stockToUpdate.name">
+                    </li>
+                    <li>
+                        <label for="isin" class="input_field"></label>
+                        <input type="text" id="isin" name="isin"
+                        placeholder="Isin:"
+                        value="@stockToUpdate.isin">
+                    </li>
+                    <li>
+                        <label for="emitentId" class="input_field"></label>
+                        <input type="number" id="emitentId" name="emitentId"
+                        placeholder="Emitent ID:"
+                        value="@stockToUpdate.emitentId">
+                    </li>
+                    <li>
+                        <label for="emitentTitle" class="input_field"></label>
+                        <input type="text" id="emitentTitle" name="emitentTitle"
+                        placeholder="Emitent Title:"
+                        value="@stockToUpdate.emitentTitle">
+                    </li>
+                    <li>
+                        <label for="emitentInn" class="input_field"></label>
+                        <input type="text" id="emitentInn" name="emitentInn"
+                        placeholder="Emitent INN:"
+                        value="@stockToUpdate.emitentInn">
+                    </li>
+                    <li>
+                        <label for="emitentOkpo" class="input_field"></label>
+                        <input type="text" id="emitentOkpo" name="emitentOkpo"
+                        placeholder="Emitent okpo:"
+                        value="@stockToUpdate.emitentOkpo">
+                    </li>
+                    <li>
+                        <label for="gosReg" class="input_field"></label>
+                        <input type="text" id="gosReg" name="gosReg"
+                        placeholder="GosReg:"
+                        value="@stockToUpdate.gosReg">
+                    </li>
+                    <li>
+                        <label for="stockType" class="input_field"></label>
+                        <input type="text" id="stockType" name="stockType"
+                        required
+                        placeholder="* Stock Type:"
+                        value="@stockToUpdate.stockType">
+                    </li>
+                    <li>
+                        <label for="group" class="input_field"></label>
+                        <input type="text" id="group" name="group"
+                        required
+                        placeholder="* Group:"
+                        value="@stockToUpdate.group">
+                    </li>
+                    <li>
+                        <label for="primaryBoardId" class="input_field"></label>
+                        <input type="text" id="primaryBoardId" name="primaryBoardId"
+                        required
+                        placeholder="* Primary Board ID:"
+                        value="@stockToUpdate.primaryBoardId">
+                    </li>
+                    <li>
+                        <label for="marketPriceBoardId" class="input_field"></label>
+                        <input type="text" id="marketPriceBoardId" name="marketPriceBoardId"
+                        placeholder="Market Price Board ID:"
+                        value="@stockToUpdate.marketPriceBoardId">
+                    </li>
+                    <li>
+                        <label for="isTraded" class="input_field" id="is_traded_question">Is Traded?</label>
+                        <input type="checkbox" id="isTraded" name="isTraded"
+                        value="@stockToUpdate.isTraded">
+                    </li>
+                </ul>
+                <div class="send_button">
+                    <button type="submit">Принять</button>
+                </div>
+            </form>
+            <div class="info">
+                Поля, помеченные знаком "*" являются обязательными
+            </div>
+        </div>
     </article>
 }

@@ -18,6 +18,7 @@
                         <tr><td>ID:</td> <td>@stock.get.id</td></tr>
                         <tr><td>Name:</td> <td>@stock.get.name</td></tr>
                         <tr><td>Reg Number:</td> <td>@stock.get.regNumber.getOrElse("—")</td></tr>
+                        <tr><td>SecID:</td> <td>@stock.get.secId<td> </tr>
                         <tr><td>isin:</td> <td>@stock.get.isin.getOrElse("—")</td></tr>
                         <tr><td>Is Traded:</td> <td>@stock.get.isTraded.getOrElse(None).equals(1).toString.capitalize</td></tr>
                         <tr><td>Emitent ID:</td> <td>@stock.get.emitentId.getOrElse("—")</td></tr>
@@ -40,28 +41,34 @@
         <section class="stock_history_wrapper">
             <div class="history_subheader">История торгов:</div>
             <section class="history_list">
-                <table id="trade_history_table">
-                    <thead>
-                        <tr>
-                            <th>Дата</th>
-                            <th>Board ID</th>
-                            <th>NumTrades</th>
-                            <th>Value</th>
-                            <th>Volume</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for(h <- stockHistory){
-                            <tr>
-                                <td>@h.tradeDate</td>
-                                <td>@h.boardId</td>
-                                <td>@h.numTrades</td>
-                                <td>@h.value</td>
-                                <td>@h.volume</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                 @for(h <- stockHistory) {
+                     <div class="spoiler">
+                         <details>
+                             <summary>@h.tradeDate <span>BoardID:</span> @h.boardId <span>Value:</span> @h.value</summary>
+                             <div>
+                                 <table id="trade_history_table">
+                                     <tbody>
+                                         <tr><td>NumTrades:</td><td>@h.numTrades</td></tr>
+                                         <tr><td>Value:</td><td>@h.value</td></tr>
+                                         <tr><td>Open:</td><td>@h.open.getOrElse("—")</td></tr>
+                                         <tr><td>Low:</td><td>@h.low.getOrElse("—")</td></tr>
+                                         <tr><td>High:</td><td>@h.high.getOrElse("—")</td></tr>
+                                         <tr><td>WaPrice:</td><td>@h.waPrice.getOrElse("—")</td></tr>
+                                         <tr><td>Close:</td><td>@h.close.getOrElse("—")</td></tr>
+                                         <tr><td>Volume:</td><td>@h.volume</td></tr>
+                                         <tr><td>Market Price 2:</td><td>@h.marketPrice2.getOrElse("—")</td></tr>
+                                         <tr><td>Market Price 3:</td><td>@h.marketPrice3.getOrElse("—")</td></tr>
+                                         <tr><td>Admitted Quote:</td><td>@h.admittedQuote.getOrElse("—")</td></tr>
+                                         <tr><td>MpToValTrade:</td><td>@h.mp2valTrd</td></tr>
+                                         <tr><td>Market Price 3 Trades Value:</td><td>@h.marketPrice3TradesValue</td></tr>
+                                         <tr><td>Admitted Value:</td><td>@h.admittedValue</td></tr>
+                                         <tr><td>Waval:</td><td>@h.waVal.getOrElse("—")</td></tr>
+                                     </tbody>
+                                 </table>
+                             </div>
+                         </details>
+                     </div>
+                 }
             </section>
         </section>
         <div>

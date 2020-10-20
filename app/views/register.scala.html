@@ -2,90 +2,113 @@
 
 @main("Регистрация ценной бумаги"){
     <article class="register_form">
-        <form action='@routes.HomeController.sendStock(isNew = true)' method="post">
-            <legend>Новая акция</legend>
-            <ul>
-                <li>
-                    <label for="id" class="input_field">ID:</label>
-                    <input type="number" id="id" name="id"
-                    oninvalid="this.setCustomValidity('ID должен быть целым числом')"
-                    oninput="this.setCustomValidity('')"
-                    required>
-                    <span class="error" aria-live="polite"></span>
-                </li>
-                <li>
-                    <label for="secId" class="input_field">SecID:</label>
-                    <input type="text" id="secId" name="secId"
-                    required>
-                </li>
-                <li>
-                    <label for="shortName" class="input_field">Short Name:</label>
-                    <input type="text" id="shortName" name="shortName"
-                    required>
-                </li>
-                <li>
-                    <label for="regNumber" class="input_field">Reg Number:</label>
-                    <input type="text" id="regNumber" name="regNumber">
-                </li>
-                <li>
-                    <label for="name" class="input_field">Name:</label>
-                    <input type="text" id="name" name="name"
-                    required>
-                </li>
-                <li>
-                    <label for="isin" class="input_field">Isin:</label>
-                    <input type="text" id="isin" name="isin">
-                </li>
-                <li>
-                    <label for="isTraded" class="input_field">Is Traded:</label>
-                    <input type="number" id="isTraded" name="isTraded">
-                </li>
-                <li>
-                    <label for="emitentId" class="input_field"> Emitent ID:</label>
-                    <input type="number" id="emitentId" name="emitentId">
-                </li>
-                <li>
-                    <label for="emitentTitle" class="input_field"> Emitent Title:</label>
-                    <input type="text" id="emitentTitle" name="emitentTitle">
-                </li>
-                <li>
-                    <label for="emitentInn" class="input_field"> Emitent INN:</label>
-                    <input type="text" id="emitentInn" name="emitentInn">
-                </li>
-                <li>
-                    <label for="emitentOkpo" class="input_field"> Emitent okpo:</label>
-                    <input type="text" id="emitentOkpo" name="emitentOkpo">
-                </li>
-                <li>
-                    <label for="gosReg" class="input_field"> Gos Reg:</label>
-                    <input type="text" id="gosReg" name="gosReg">
-                </li>
-                <li>
-                    <label for="stockType" class="input_field">Stock Type:</label>
-                    <input type="text" id="stockType" name="stockType"
-                    required>
-                </li>
-                <li>
-                    <label for="group" class="input_field">Group:</label>
-                    <input type="text" id="group" name="group"
-                    required>
-                </li>
-                <li>
-                    <label for="primaryBoardId" class="input_field">Primary Board ID:</label>
-                    <input type="text" id="primaryBoardId" name="primaryBoardId"
-                    required>
-                </li>
-                <li>
-                    <label for="marketPriceBoardId" class="input_field">Market Price Board ID:</label>
-                    <input type="text" id="marketPriceBoardId" name="marketPriceBoardId">
-                </li>
-                <li class="button">
-                    <div class="send_button">
-                        <button type="submit">Зарегистрировать!</button>
-                    </div>
-                </li>
-
-            </ul>
-        </form>
+        <div class="form_wrapper">
+            <form action='@routes.HomeController.sendStock(isNew = true)' method="post">
+                <div class="table_header">
+                    <div class="register_title">Регистрация ценной бумаги</div>
+                </div>
+                <ul>
+                    <li>
+                        <label for="id" class="input_field"></label>
+                        <input type="number" id="id" name="id"
+                        oninvalid="this.setCustomValidity('ID должен быть целым числом')"
+                        oninput="this.setCustomValidity('')"
+                        placeholder="* ID:"
+                        required>
+                        <span class="error" aria-live="polite"></span>
+                    </li>
+                    <li>
+                        <label for="secId" class="input_field"></label>
+                        <input type="text" id="secId" name="secId"
+                        placeholder="* SecID:"
+                        required>
+                    </li>
+                    <li>
+                        <label for="shortName" class="input_field"></label>
+                        <input type="text" id="shortName" name="shortName"
+                        placeholder="* Short Name:"
+                        required>
+                    </li>
+                    <li>
+                        <label for="regNumber" class="input_field"></label>
+                        <input type="text" id="regNumber" name="regNumber"
+                        placeholder="Reg Number:">
+                    </li>
+                    <li>
+                        <label for="name" class="input_field"></label>
+                        <input type="text" id="name" name="name"
+                        placeholder="* Name:"
+                        required
+                        pattern="^[А-Яа-яЁё0-9\s]+$"
+                        oninvalid="this.setCustomValidity('ААА')"
+                        oninput="this.setCustomValidity('')">
+                    </li>
+                    <li>
+                        <label for="isin" class="input_field"></label>
+                        <input type="text" id="isin" name="isin"
+                        placeholder="Isin:">
+                    </li>
+                    <li>
+                        <label for="emitentId" class="input_field"></label>
+                        <input type="number" id="emitentId" name="emitentId"
+                        placeholder="Emitent ID:">
+                    </li>
+                    <li>
+                        <label for="emitentTitle" class="input_field"></label>
+                        <input type="text" id="emitentTitle" name="emitentTitle"
+                        placeholder="Emitent Title:">
+                    </li>
+                    <li>
+                        <label for="emitentInn" class="input_field"></label>
+                        <input type="text" id="emitentInn" name="emitentInn"
+                        placeholder="Emitent INN:">
+                    </li>
+                    <li>
+                        <label for="emitentOkpo" class="input_field"></label>
+                        <input type="text" id="emitentOkpo" name="emitentOkpo"
+                        placeholder="Emitent okpo:">
+                    </li>
+                    <li>
+                        <label for="gosReg" class="input_field"></label>
+                        <input type="text" id="gosReg" name="gosReg"
+                        placeholder="GosReg:">
+                    </li>
+                    <li>
+                        <label for="stockType" class="input_field"></label>
+                        <input type="text" id="stockType" name="stockType"
+                        required
+                        placeholder="* Stock Type:">
+                    </li>
+                    <li>
+                        <label for="group" class="input_field"></label>
+                        <input type="text" id="group" name="group"
+                        required
+                        placeholder="* Group:">
+                    </li>
+                    <li>
+                        <label for="primaryBoardId" class="input_field"></label>
+                        <input type="text" id="primaryBoardId" name="primaryBoardId"
+                        required
+                        placeholder="* Primary Board ID:">
+                    </li>
+                    <li>
+                        <label for="marketPriceBoardId" class="input_field"></label>
+                        <input type="text" id="marketPriceBoardId" name="marketPriceBoardId"
+                        placeholder="Market Price Board ID:">
+                    </li>
+                    <li>
+                        <label for="isTraded" class="input_field" id="is_traded_question">Is Traded?</label>
+                        <input type="checkbox" id="isTraded" name="isTraded"
+                        value="1">
+                    </li>
+                </ul>
+                <div class="send_button">
+                    <button type="submit">Зарегистрировать!</button>
+                </div>
+            </form>
+            <div class="info">
+                Поля, помеченные знаком "*" являются обязательными
+            </div>
+        </div>
     </article>
 }
