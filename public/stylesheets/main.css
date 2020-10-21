@@ -8,14 +8,6 @@ section {
     margin-right: 10%;
 }
 
-tr:hover {
-    background: aquamarine;
-}
-
-tr:active {
-    color: #f4511e;
-}
-
 td a {
     display: block;
 }
@@ -58,6 +50,10 @@ td a {
     background-color: #f4511e;
     border: none;
     color: #FFFFFF;
+}
+
+.header_button:hover {
+    background-color: brown;
 }
 
 .logo_letters {
@@ -261,6 +257,10 @@ li {
     /*padding: 9px 48px;*/
 }
 
+.send_button:hover {
+    background-color: brown;
+}
+
 .info {
     padding-top: 30px;
     padding-bottom: 25px;
@@ -270,4 +270,38 @@ li {
 
 #edit_id {
     color: gray;
+}
+
+.upload_page {
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+    border: 2px solid black;
+}
+
+.upload_page input {
+    width: 100%;
+    padding-bottom: 10px;
+}
+
+.table_caption {
+    margin: 20px;
+}
+
+#generic_table_wrapper {
+    background-color: white;
+    border-radius: 20px;
+}
+
+#generic_table {
+    text-align:left;
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+#search_input {
+    margin-left: 20px;
+    margin-top: 20px;
+    width: 250px;
 }

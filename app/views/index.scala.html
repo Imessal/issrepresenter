@@ -18,15 +18,12 @@
         </section>
         <section class="table_body">
             <table id="stock_table">
-                <thead>
-                    <tr>
-                        <th>Название</th>
-                        <th>ID</th>
-                        <th>Sec ID</th>
-                        <th>Board ID</th>
-                    </tr>
-                </thead>
-                <tbody>
+                <tr>
+                    <th>Название</th>
+                    <th>ID</th>
+                    <th>Sec ID</th>
+                    <th>Board ID</th>
+                </tr>
                 @for(stock <- stocks) {
                     <tr>
                         <td><a href="@routes.HomeController.getStockInfo(stock.id)">@stock.name</a></td>
@@ -35,7 +32,6 @@
                         <td style="text-align: center"><a href="@routes.HomeController.getStockInfo(stock.id)">@stock.primaryBoardId</a></td>
                     </tr>
                 }
-                </tbody>
             </table>
         </section>
         <div>

@@ -41,7 +41,7 @@
         <section class="stock_history_wrapper">
             <div class="history_subheader">История торгов:</div>
             <section class="history_list">
-                 @for(h <- stockHistory) {
+                 @for(h <- stockHistory.reverse) {
                      <div class="spoiler">
                          <details>
                              <summary>@h.tradeDate <span>BoardID:</span> @h.boardId <span>Value:</span> @h.value</summary>
