@@ -7,13 +7,22 @@
 @*                <img src="@routes.Assets.versioned("/images/stonks.png")" alt="image with stocks" width="80px">*@
             </div>
             <div class="logo_letters">
-                Stocks
+@*                Данные московской биржи*@
+                Stonks
             </div>
             <div class="header_buttons">
                 <input class="header_button" type="button" value="Загрузить" id="uploadButton"
                 onclick="window.open('@routes.HomeController.uploadForm()')">
                 <input class="header_button" type="button" value="Новый" id="addButton"
                 onclick="window.open('@routes.HomeController.newStock')">
+            </div>
+        </section>
+        <section class="navigation">
+            <div id="search_wrapper">
+                <input type="text" id="main_table_search_bar" class="search_input" placeholder="Search for emitent title or trade date..." title="Type in a name">
+            </div>
+            <div class="generic_table_ref">
+                <a href="@routes.HomeController.getTableView()">Открыть таблицу...</a>
             </div>
         </section>
         <section class="table_body">
@@ -34,8 +43,5 @@
                 }
             </table>
         </section>
-        <div>
-            <a href="@routes.HomeController.getTableView()">Открыть таблицу</a>
-        </div>
     </article>
 }

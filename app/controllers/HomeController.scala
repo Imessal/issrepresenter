@@ -22,7 +22,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   val req = new SearchRequestSender()
 
   def index(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    Redirect(routes.HomeController.stocks())
+    Redirect(routes.HomeController.synchronise())
   }
 
   def synchronise(): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
@@ -40,7 +40,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     wantedStocks map {
       res => {
         ss.addList(res)
-        Redirect(routes.HomeController.index())
+        Redirect(routes.HomeController.stocks())
       }
     }
   }
@@ -88,10 +88,14 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   }
 
   def getStockInfo(id: Int): Action[AnyContent] = Action.async {
-    for {
-      stock <- ss.findStock(id)
-      history <- hs.findHistory(stock.get.secId)
-    } yield Ok(views.html.stock(StockForm.form, stock, history))
+    try {
+      for {
+        stock <- ss.findStock(id)
+        history <- hs.findHistory(stock.get.secId)
+      } yield Ok(views.html.stock(StockForm.form, stock, history))
+    } catch {
+      case _: Exception => ss.all().map(s => Ok(views.html.index(s)))
+    }
   }
 
   def getTableView: Action[AnyContent] = Action.async {

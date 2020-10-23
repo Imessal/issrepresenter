@@ -1,11 +1,12 @@
 body {
     background-color: #FFFF73;
+    font-family: 'Roboto', sans-serif;
 }
 
 section {
     background-color: #FFFFFE;
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 6%;
+    margin-right: 6%;
 }
 
 td a {
@@ -24,7 +25,7 @@ td a {
     background-color: floralwhite;
 }
 
-.table_header > div {
+.table_header div {
     display: inline-block;
     margin-top: 20px;
 }
@@ -75,18 +76,11 @@ td a {
     text-decoration: none;
 }
 
-/*.table_wrapper a:hover {*/
-
-/*}*/
-
-/*.table_wrapper a:active {*/
-/*    color: darkturquoise;*/
-/*}*/
-
 #stock_table {
     margin-left: auto;
     margin-right: auto;
     font-size: 1.2vw;
+    width: 90%;
 }
 
 .stock_full_info {
@@ -100,7 +94,6 @@ td a {
 }
 
 .stock_history_wrapper {
-    border-radius: 0 0 40px 40px;
     padding-bottom: 30px;
     padding-top: 15px;
 }
@@ -169,22 +162,28 @@ table.table_part {
     border: 1px solid #e0e0e0;
     padding: 0 1em;
 }
+
 .spoiler details {
     padding: 1em 0;
 }
+
 .spoiler details + details {
     border-top: 1px solid #e0e0e0;
 }
+
 .spoiler summary {
     color: #4d5895;
 }
+
 .spoiler details div {
     overflow: hidden;
     padding: 1em 1em 0;
 }
+
 .spoiler details[open] div {
     animation: spoiler 1s;
 }
+
 @keyframes spoiler {
     0%   {max-height: 0;}
     100% {max-height: 10em;}
@@ -304,4 +303,66 @@ li {
     margin-left: 20px;
     margin-top: 20px;
     width: 250px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+}
+
+.navigation {
+    display: inline-block;
+    margin-left: 6%;
+    margin-right: 6%;
+    background-color: beige;
+    width: 88%;
+}
+
+.navigation div{
+    display: inline-block;
+    padding: 10px;
+}
+
+.generic_table_ref {
+    float: right;
+    margin-right: 50px;
+}
+
+.generic_table_ref a {
+    font-size: 1vw;
+    color: gray;
+}
+
+#search_wrapper {
+    width: 25%;
+    padding: 5px;
+    margin-left: 40px;
+}
+
+#main_table_search_bar{
+    width: 100%;
+    margin-top: 4px;
+    padding: 2px;
+    border-radius: 10px;
+    border-width: thin;
+}
+
+#stock_table tr:first-of-type :hover{
+    cursor: pointer;
+    color: rebeccapurple;
+}
+
+#stock_table tr:first-of-type :active {
+    color: red;
+}
+
+#clear_history_ref {
+    padding-bottom: 50px;
+    border-radius: 0 0 40px 40px;
+}
+
+#clear_history_ref a {
+    float: right;
+    padding-right: 2em;
+    padding-bottom: 2em;
 }

@@ -12,19 +12,36 @@ document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() =
         .forEach(tr => table.appendChild(tr) );
 })));
 
-function filterTable(event) {
-    let filter = event.target.value.toUpperCase();
-    let rows = document.querySelector("#generic_table tbody").rows;
-
-    for (let i = 1; i < rows.length; i++) {
-        const firstCol = rows[i].cells[3].textContent.toUpperCase();
-        const secondCol = rows[i].cells[4].textContent.toUpperCase();
-        if (firstCol.indexOf(filter) > -1 || secondCol.indexOf(filter) > -1) {
-            rows[i].style.display = "";
-        } else {
-            rows[i].style.display = "none";
-        }
-    }
+function checkCol(row, cells, filter) {
+    const matches = (el) => row.cells[el].textContent.toUpperCase().indexOf(filter) > -1
+    return cells.some(matches)
 }
 
-document.querySelector('#search_input').addEventListener('keyup', filterTable, false);
+function filterTable(selector, cells){
+    function inner(event) {
+        let filter = event.target.value.toUpperCase();
+        let rows = document.querySelector(selector).rows;
+        console.log(rows.length)
+        for (let i = 1; i < rows.length; i++) {
+            if (checkCol(rows[i], cells, filter)) {
+                console.log("here")
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+                console.log("here")
+            }
+        }
+    }
+    return inner
+}
+
+const test = () => console.log("Hi")
+
+let genericTableFilter = filterTable("#generic_table", [3, 4])
+let mainTableFilter = filterTable("#stock_table", [0, 1, 2, 3])
+
+try {
+    document.querySelector('#search_input').addEventListener('keyup', genericTableFilter, false)
+} catch (error) {
+    document.querySelector('#main_table_search_bar').addEventListener('keyup', mainTableFilter, false)
+}
