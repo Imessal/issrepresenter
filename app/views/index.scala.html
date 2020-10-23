@@ -19,14 +19,14 @@
         </section>
         <section class="navigation">
             <div id="search_wrapper">
-                <input type="text" id="main_table_search_bar" class="search_input" placeholder="Search for emitent title or trade date..." title="Type in a name">
+                <input type="text" id="main_table_search_bar" class="search_input" placeholder="Search..." title="Type in a name">
             </div>
             <div class="generic_table_ref">
                 <a href="@routes.HomeController.getTableView()">Открыть таблицу...</a>
             </div>
         </section>
         <section class="table_body">
-            <table id="stock_table">
+            <table id="main_stock_table" class="stock_table">
                 <tr>
                     <th>Название</th>
                     <th>ID</th>

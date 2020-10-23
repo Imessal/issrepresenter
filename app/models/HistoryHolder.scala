@@ -25,6 +25,12 @@ object HistoryHolder {
       }
     }
 
+    def getFromOption(stock: Option[FullStock]): Future[Seq[TradeHistory]] = {
+      if(stock.isDefined) {
+        get(stock.get.getSecId)
+      } else all()
+    }
+
     def delete(secId: String): Future[Int] = {
       dbConfig.db.run(historiesFromDB.filter(_.secId === secId).delete)
     }

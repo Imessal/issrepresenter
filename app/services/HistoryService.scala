@@ -1,7 +1,7 @@
 package services
 
 import com.google.inject.Inject
-import models.TradeHistory
+import models.{FullStock, TradeHistory}
 import models.HistoryHolder.Histories
 
 import scala.concurrent.Future
@@ -15,8 +15,12 @@ class HistoryService @Inject() (histories: Histories) {
     histories.delete(secId)
   }
 
-  def findHistory(secId: String): Future[Seq[TradeHistory]] = {
+  def findHistoryBySecId(secId: String): Future[Seq[TradeHistory]] = {
     histories.get(secId)
+  }
+
+  def findHistoryByOption(stock: Option[FullStock]): Future[Seq[TradeHistory]] = {
+    histories.getFromOption(stock)
   }
 
   def all(): Future[Seq[TradeHistory]] = {

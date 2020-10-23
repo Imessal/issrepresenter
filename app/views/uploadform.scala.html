@@ -1,8 +1,10 @@
 @helper.form(action = routes.HomeController.upload(), Symbol("enctype") -> "multipart/form-data") {
     @main("Загрузить...") {
     <article class="upload_page">
-        <input type="file" name="xml" accept=".xml">
-        <button type="submit">Загрузить</button>
+        <section class="upload_wrapper">
+            <input type="file" name="xml" accept=".xml" id="upload_button">
+            <button type="submit" id="submit_button">Загрузить</button>
+        </section>
     </article>
     }
 }

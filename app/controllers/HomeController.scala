@@ -52,7 +52,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   }
 
   def clearHistory(secId: String): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
-    val fHistories = hs.findHistory(secId)
+    val fHistories = hs.findHistoryBySecId(secId)
     fHistories.map {
       histories => histories.map(_ => hs.deleteHistory(secId))
         Redirect(routes.HomeController.index())
@@ -87,14 +87,16 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     Ok(views.html.success())
   }
 
-  def getStockInfo(id: Int): Action[AnyContent] = Action.async {
-    try {
-      for {
-        stock <- ss.findStock(id)
-        history <- hs.findHistory(stock.get.secId)
-      } yield Ok(views.html.stock(StockForm.form, stock, history))
-    } catch {
-      case _: Exception => ss.all().map(s => Ok(views.html.index(s)))
+  def getStockInfo(id: Int): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
+    val res = for {
+      stock <- ss.findStock(id)
+      history <- hs.findHistoryByOption(stock)
+    } yield (stock, history)
+
+    res.map { tuple =>
+      if (tuple._1.isDefined) Ok(views.html.stock(StockForm.form, tuple._1, tuple._2)) else {
+        Redirect(routes.HomeController.index())
+      }
     }
   }
 

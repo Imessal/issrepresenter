@@ -76,7 +76,7 @@ td a {
     text-decoration: none;
 }
 
-#stock_table {
+#main_stock_table {
     margin-left: auto;
     margin-right: auto;
     font-size: 1.2vw;
@@ -271,12 +271,23 @@ li {
     color: gray;
 }
 
+#submit_button {
+    width: 8.5em;
+}
+
 .upload_page {
     margin: auto;
     width: 60%;
-    padding: 10px;
+    padding: 20px;
     border: 2px solid black;
+    border-radius: 40px 40px 40px 40px;
+    background: white;
 }
+
+.table_wrapper {
+    padding: 10px 40px 40px 40px;
+}
+
 
 .upload_page input {
     width: 100%;
@@ -347,12 +358,12 @@ footer {
     border-width: thin;
 }
 
-#stock_table tr:first-of-type :hover{
+.stock_table tr:first-of-type :hover{
     cursor: pointer;
     color: rebeccapurple;
 }
 
-#stock_table tr:first-of-type :active {
+#main_stock_table tr:first-of-type :active {
     color: red;
 }
 
@@ -365,4 +376,29 @@ footer {
     float: right;
     padding-right: 2em;
     padding-bottom: 2em;
+}
+
+#success_page {
+    height: 70px;
+}
+
+#success_page p{
+    text-align: center;
+}
+
+#success_page a {
+    width: 100px;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+    position: absolute;
+    padding-bottom: 40px;
+    margin-bottom: 40px;
+}
+
+#main_stock_table {
+    border-collapse:collapse;
+}
+
+#main_stock_table tr:not(:first-of-type):hover{
+    background-color: gray;
 }
