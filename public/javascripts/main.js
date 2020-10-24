@@ -4,7 +4,6 @@ const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
         v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
 )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
 
-// do the work...
 document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
     const table = th.closest('table');
     Array.from(table.querySelectorAll('tr:nth-child(n+2)'))
@@ -38,7 +37,7 @@ function filterTable(selector, cells){
 const test = () => console.log("Hi")
 
 let genericTableFilter = filterTable("#generic_table", [3, 4])
-let mainTableFilter = filterTable("#stock_table", [0, 1, 2, 3])
+let mainTableFilter = filterTable("#main_stock_table", [0, 1, 2, 3])
 
 try {
     document.querySelector('#search_input').addEventListener('keyup', genericTableFilter, false)

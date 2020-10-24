@@ -1,14 +1,12 @@
 package controllers
 
-import java.io.File
 import java.nio.file.{Files => JavaFiles}
 import java.nio.file.Paths
 
 import javax.inject._
 import play.api.mvc._
 import models.StockHolder._
-import models.HistoryHolder._
-import models.{FullStock, IssObject, SearchRequestSender, StocksGetter, TradeHistory, TradeHistoryGetter}
+import models.{FullStock, SearchRequestSender, StocksGetter, TradeHistoryGetter}
 import play.api.libs.Files
 import services.StockService
 import services.HistoryService
@@ -75,7 +73,6 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
   def addManyHistories(path: String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     val allHistoriesList = new TradeHistoryGetter(path).get()
     hs.addList(allHistoriesList)
-    new File(path).delete()
     Ok(views.html.success())
   }
 
@@ -83,7 +80,6 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
     val content = new String(JavaFiles.readAllBytes(Paths.get(path)))
     val stocksToAdd = new StocksGetter(content).get()
     ss.addList(stocksToAdd)
-    new File(path).delete()
     Ok(views.html.success())
   }
 

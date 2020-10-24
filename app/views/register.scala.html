@@ -12,8 +12,7 @@
                         <label for="id" class="input_field"></label>
                         <input type="number" id="id" name="id"
                         oninvalid="this.setCustomValidity('ID должен быть целым числом')"
-                        oninput="this.setCustomValidity('')"
-                        placeholder="* ID:"
+                        placeholder="* ID: Внимание, это поле нельзя будет изменить"
                         required>
                         <span class="error" aria-live="polite"></span>
                     </li>
@@ -40,7 +39,7 @@
                         placeholder="* Name:"
                         required
                         pattern="^[А-Яа-яЁё0-9\s]+$"
-                        oninvalid="this.setCustomValidity('ААА')"
+                        oninvalid="this.setCustomValidity('Поле &quot;Name&quot; должно содержать только цифры, пробелы и кириллицу')"
                         oninput="this.setCustomValidity('')">
                     </li>
                     <li>

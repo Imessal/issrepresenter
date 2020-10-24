@@ -1,20 +1,19 @@
 @(stocks: Seq[FullStock])
 
-@main("Available Stocks") {
+@main("Список акций") {
     <article class="table_wrapper">
         <section class="table_header">
             <div class="logo">
-@*                <img src="@routes.Assets.versioned("/images/stonks.png")" alt="image with stocks" width="80px">*@
+               <img src="@routes.Assets.versioned("/images/logo.png")" alt="logo" id="stocks_image">
             </div>
             <div class="logo_letters">
-@*                Данные московской биржи*@
-                Stonks
+                Акции
             </div>
             <div class="header_buttons">
                 <input class="header_button" type="button" value="Загрузить" id="uploadButton"
-                onclick="window.open('@routes.HomeController.uploadForm()')">
+                onclick="location.reload();location.href='@routes.HomeController.uploadForm()'">
                 <input class="header_button" type="button" value="Новый" id="addButton"
-                onclick="window.open('@routes.HomeController.newStock')">
+                onclick="location.reload();location.href='@routes.HomeController.newStock()'">
             </div>
         </section>
         <section class="navigation">
@@ -31,7 +30,7 @@
                     <th>Название</th>
                     <th>ID</th>
                     <th>Sec ID</th>
-                    <th>Board ID</th>
+                    <th style="width: 70px">Board ID</th>
                 </tr>
                 @for(stock <- stocks) {
                     <tr>

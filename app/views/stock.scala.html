@@ -6,9 +6,9 @@
             <div class="name_container">@stock.get.shortName</div>
             <div class="stock_buttons">
                 <input class="header_button" type="button" value="Редактировать" id="editButton"
-                onclick="window.open('@routes.HomeController.updateStock(stock.get.id)')">
+                onclick="location.reload();location.href='@routes.HomeController.updateStock(stock.get.id)'">
                 <input class="header_button" type="button" value="Удалить" id="deleteButton"
-                onclick="window.open('@routes.HomeController.deleteStock(stock.get.id)')">
+                onclick="location.reload();location.href='@routes.HomeController.deleteStock(stock.get.id)'">
             </div>
         </section>
         <section class="stock_info">
